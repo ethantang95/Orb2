@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orb2", "Orb2\Orb2.csproj", "{E8D9AD0F-C992-4754-9965-A33ECE90009D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrameworkTests", "FrameworkTests\FrameworkTests.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrbCore", "OrbCore\OrbCore.csproj", "{F3D8D7E5-B8B9-4B36-91AC-631214619FD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E8D9AD0F-C992-4754-9965-A33ECE90009D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E8D9AD0F-C992-4754-9965-A33ECE90009D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E8D9AD0F-C992-4754-9965-A33ECE90009D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E8D9AD0F-C992-4754-9965-A33ECE90009D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EDF4429-251A-416D-BB68-93F227191BCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EDF4429-251A-416D-BB68-93F227191BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EDF4429-251A-416D-BB68-93F227191BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EDF4429-251A-416D-BB68-93F227191BCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3D8D7E5-B8B9-4B36-91AC-631214619FD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3D8D7E5-B8B9-4B36-91AC-631214619FD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3D8D7E5-B8B9-4B36-91AC-631214619FD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3D8D7E5-B8B9-4B36-91AC-631214619FD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Orb2
+namespace OrbCore.Interfaces.Receivers
 {
-    class Program
+    public interface IDiscordDisconnectedReceiver
     {
-        static void Main(string[] args)
-        {
-        }
+        Task OnDiscordDisconnected();
     }
 }
