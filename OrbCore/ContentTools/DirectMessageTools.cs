@@ -12,33 +12,39 @@ namespace OrbCore.ContentTools
     {
         public static DirectMessageContent CreateDirectMessageContentFromSocketMessage(SocketMessage message)
         {
-            if (!IsSocketMessageDirectMessage(message))
-            {
-                throw new InvalidCastException($"The type of SocketMessage that was given is not one that is from a direct message channel. It is of type {message.GetType().Name}. Suggest to correct and validate the type before sending in");
-            }
-
-            var content = message.Content;
-            var user = message.Author;
-            var channel = message.Channel;
-
-            return new DirectMessageContent(message, content, user, channel);
+            ThrowIfNotRightType(message);
+            return ExtractMessageToCreateDirectMessageContent(message);
         }
 
         public static bool IsSocketMessageDirectMessage(SocketMessage message)
         {
-            if (message.GetType() != typeof(SocketUserMessage))
+            return IsTypeSocketUserMessage(message) && IsChannelTypeSocketDMChannel(message);
+        }
+
+        private static void ThrowIfNotRightType(SocketMessage message)
+        {
+            if (!IsSocketMessageDirectMessage(message))
             {
-                return false;
+                throw new InvalidCastException($"The type of SocketMessage that was given is not one that is from a direct message channel. It is of type {message.GetType().Name}. Suggest to correct and validate the type before sending in");
             }
+        }
 
-            var userMessage = message as SocketUserMessage;
+        private static DirectMessageContent ExtractMessageToCreateDirectMessageContent(SocketMessage message)
+        {
+            var content = message.Content;
+            var user = message.Author;
+            var channel = message.Channel;
+            return new DirectMessageContent(message, content, user, channel);
+        }
 
-            if (userMessage.Channel.GetType() != typeof(SocketDMChannel))
-            {
-                return false;
-            }
+        private static bool IsTypeSocketUserMessage(SocketMessage message)
+        {
+            return message.GetType() == typeof(SocketUserMessage);
+        }
 
-            return true;
+        private static bool IsChannelTypeSocketDMChannel(SocketMessage message)
+        {
+            return message.GetType() == typeof(SocketDMChannel);
         }
     }
 }

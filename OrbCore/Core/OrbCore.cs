@@ -33,7 +33,7 @@ namespace OrbCore.Core
         {
             _config = config;
             Stop();
-            _configured = false;
+            UnConfigureClient();
             Start();
         }
 
@@ -45,11 +45,7 @@ namespace OrbCore.Core
 
         public void Start()
         {
-            if (!_configured)
-            {
-                ConfigureClient();
-            }
-
+            ConfigureClientIfNotConfigured();
             throw new NotImplementedException();
         }
 
@@ -63,13 +59,30 @@ namespace OrbCore.Core
             throw new NotImplementedException();
         }
 
-        private void ConfigureClient()
+        private void ConfigureClientIfNotConfigured()
         {
-            SetEvents();
-            SetGame();
+            if (!_configured)
+            {
+                ConfigureClient();
+            }
         }
 
-        private void SetEvents()
+        private void ConfigureClient()
+        {
+            RegisterEvents();
+            SetGame();
+            _configured = true;
+        }
+
+        private void SetGame()
+        {
+            if (_config.StartingGame.Present)
+            {
+                CoreAPI.SetGame(_config.StartingGame.Value);
+            }
+        }
+
+        private void RegisterEvents()
         {
             _client.MessageReceived += OnMessageReceived;
             _client.Disconnected += OnDisconnected;
@@ -79,6 +92,24 @@ namespace OrbCore.Core
             _client.UserJoined += OnUserJoined;
             _client.UserBanned += OnUserBanned;
             _client.UserLeft += OnUserLeft;
+        }
+
+        private void UnConfigureClient()
+        {
+            UnRegisterEvents();
+            _configured = false;
+        }
+
+        private void UnRegisterEvents()
+        {
+            _client.MessageReceived -= OnMessageReceived;
+            _client.Disconnected -= OnDisconnected;
+            _client.Ready -= OnReady;
+            _client.JoinedGuild -= OnJoinedGuild;
+            _client.LeftGuild -= OnLeftGuild;
+            _client.UserJoined -= OnUserJoined;
+            _client.UserBanned -= OnUserBanned;
+            _client.UserLeft -= OnUserLeft;
         }
 
         #region events declaration
@@ -171,13 +202,5 @@ namespace OrbCore.Core
             }
         }
         #endregion
-
-        private void SetGame()
-        {
-            if (_config.StartingGame.Present)
-            {
-                CoreAPI.SetGame(_config.StartingGame.Value);
-            }
-        }
     }
 }
