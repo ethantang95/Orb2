@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrbCore.ContentCreators
+namespace OrbCore.ContentTools
 {
-    internal static class GuildTextMessageCreator
+    internal static class GuildTextMessageTools
     {
         public static GuildTextMessageContent CreateGuildTextMessageContentFromSocketMessage(SocketMessage message)
         {

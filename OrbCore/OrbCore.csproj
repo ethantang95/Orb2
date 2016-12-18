@@ -50,6 +50,9 @@
       <HintPath>..\packages\Discord.Net.WebSocket.1.0.0-beta2-00512\lib\netstandard1.3\Discord.Net.WebSocket.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="HelperCore">
+      <HintPath>..\..\HelperCore\HelperCore\HelperCore\bin\Debug\HelperCore.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.Primitives.4.0.1\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
       <Private>True</Private>
@@ -161,7 +164,8 @@
     <Compile Include="ContentTools\GuildTextMessageTools.cs" />
     <Compile Include="ContentTools\GuildUserEventTools.cs" />
     <Compile Include="Core\CoreAPI.cs" />
-    <Compile Include="Core\CoreConfig.cs" />
+    <Compile Include="Core\Config\CoreConfig.cs" />
+    <Compile Include="Core\Config\CoreConfigBuilder.cs" />
     <Compile Include="Core\CoreQuery.cs" />
     <Compile Include="Interfaces\Core\ICoreAPI.cs" />
     <Compile Include="Interfaces\Core\ICoreQuery.cs" />
@@ -184,7 +188,9 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Logger\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

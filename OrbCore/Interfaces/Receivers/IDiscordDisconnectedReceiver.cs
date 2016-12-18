@@ -8,6 +8,6 @@ namespace OrbCore.Interfaces.Receivers
 {
     public interface IDiscordDisconnectedReceiver
     {
-        Task OnDiscordDisconnected();
+        Task OnDiscordDisconnected(Exception exception);
     }
 }
