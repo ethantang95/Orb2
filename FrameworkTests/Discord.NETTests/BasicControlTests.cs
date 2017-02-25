@@ -18,6 +18,7 @@ namespace FrameworkTests.Discord.NETTests
         public async Task SetUp()
         {
             _client = await Connect();
+            await _client.WaitForGuildsAsync();
 
             Console.WriteLine("connected");
         }
