@@ -10,7 +10,7 @@ namespace OrbCore.Core.Config
 {
     public class CoreConfig
     {
-        public Optional<string> LoginToken { get; set; }
+        public string LoginToken { get; set; }
         public Optional<string> StartingGame { get; set; }
 
         //receiver interfaces
@@ -24,9 +24,9 @@ namespace OrbCore.Core.Config
         public Optional<IUserBannedReceiver> UserBannedReceiver { get; set; }
         public Optional<IUserLeftReceiver> UserLeftReceiver { get; set; }
 
-        public CoreConfig()
+        public CoreConfig(string loginToken)
         {
-            LoginToken = Optional<string>.FromNull();
+            LoginToken = loginToken;
             StartingGame = Optional<string>.FromNull();
 
             DirectMessageReceiver = Optional<IDirectMessageReceiver>.FromNull();

@@ -1,4 +1,4 @@
-﻿using Discord.WebSocket;
+﻿using Discord;
 using OrbCore.ContentStructures;
 using System;
 using System.Collections.Generic;
@@ -10,18 +10,19 @@ namespace OrbCore.ContentTools
 {
     internal static class DirectMessageTools
     {
-        public static DirectMessageContent CreateDirectMessageContentFromSocketMessage(SocketMessage message)
+        public static DirectMessageContent CreateDirectMessageContentFromSocketMessage(IMessage message)
         {
+            ThrowIfContainsNull(message);
             ThrowIfNotRightType(message);
             return ExtractMessageToCreateDirectMessageContent(message);
         }
 
-        public static bool IsSocketMessageDirectMessage(SocketMessage message)
+        public static bool IsSocketMessageDirectMessage(IMessage message)
         {
             return IsTypeSocketUserMessage(message) && IsChannelTypeSocketDMChannel(message);
         }
 
-        private static void ThrowIfNotRightType(SocketMessage message)
+        private static void ThrowIfNotRightType(IMessage message)
         {
             if (!IsSocketMessageDirectMessage(message))
             {
@@ -29,7 +30,32 @@ namespace OrbCore.ContentTools
             }
         }
 
-        private static DirectMessageContent ExtractMessageToCreateDirectMessageContent(SocketMessage message)
+        private static void ThrowIfContainsNull(IMessage message)
+        {
+            if (IsMessageNull(message))
+            {
+                ThrowNullField("message");
+            }
+            else if (IsMessageContentNull(message))
+            {
+                ThrowNullField("message content");
+            }
+            else if (IsChannelNull(message))
+            {
+                ThrowNullField("channel");
+            }
+            else if (IsAuthorNull(message))
+            {
+                ThrowNullField("user");
+            }
+        }
+
+        private static void ThrowNullField(string field)
+        {
+            throw new ArgumentNullException($"The {field} field in the message appears to be null");
+        }
+
+        private static DirectMessageContent ExtractMessageToCreateDirectMessageContent(IMessage message)
         {
             var content = message.Content;
             var user = message.Author;
@@ -37,14 +63,34 @@ namespace OrbCore.ContentTools
             return new DirectMessageContent(message, content, user, channel);
         }
 
-        private static bool IsTypeSocketUserMessage(SocketMessage message)
+        private static bool IsTypeSocketUserMessage(IMessage message)
         {
-            return message.GetType() == typeof(SocketUserMessage);
+            return message is IUserMessage;
         }
 
-        private static bool IsChannelTypeSocketDMChannel(SocketMessage message)
+        private static bool IsMessageNull(IMessage message)
         {
-            return message.GetType() == typeof(SocketDMChannel);
+            return message == null;
+        }
+
+        private static bool IsMessageContentNull(IMessage message)
+        {
+            return message.Content == null;
+        }
+
+        private static bool IsChannelTypeSocketDMChannel(IMessage message)
+        {
+            return message.Channel is IDMChannel;
+        }
+
+        private static bool IsChannelNull(IMessage message)
+        {
+            return message.Channel == null;
+        }
+
+        private static bool IsAuthorNull(IMessage message)
+        {
+            return message.Author == null;
         }
     }
 }

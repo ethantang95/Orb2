@@ -106,9 +106,10 @@ namespace FrameworkTests.Discord.NETTests
         [Test]
         public void RegisterReceivingMessage()
         {
-            _client.MessageReceived += async (msg) => 
+            _client.MessageReceived += (msg) =>
             {
                 Console.WriteLine(msg.Content);
+                return Task.CompletedTask;
             };
         }
 

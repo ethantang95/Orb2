@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Discord;
 
 namespace OrbCore.Core
 {
@@ -43,20 +44,23 @@ namespace OrbCore.Core
             Start();
         }
 
-        public void Start()
+        public async void Start()
         {
             ConfigureClientIfNotConfigured();
-            throw new NotImplementedException();
+            await _client.LoginAsync(TokenType.Bot, _config.LoginToken);
+            await _client.ConnectAsync();
         }
 
-        public void Stop()
+        public async void Stop()
         {
-            throw new NotImplementedException();
+            await _client.DisconnectAsync();
+            await _client.LogoutAsync();
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Stop();
+            UnConfigureClient();
         }
 
         private void ConfigureClientIfNotConfigured()

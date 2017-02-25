@@ -14,8 +14,7 @@ namespace OrbCore.Core.Config
 
         public CoreConfigBuilder(string token)
         {
-            _config = new CoreConfig();
-            _config.LoginToken = Optional.From(token);
+            _config = new CoreConfig(token);
         }
 
         public CoreConfigBuilder SetStartingGame(string game)

@@ -1,5 +1,4 @@
 ﻿using Discord;
-using Discord.WebSocket;
 using OrbCore.ContentStructures;
 using System;
 using System.Collections.Generic;
@@ -11,18 +10,22 @@ namespace OrbCore.ContentTools
 {
     internal static class GuildTextMessageTools
     {
-        public static GuildTextMessageContent CreateGuildTextMessageContentFromSocketMessage(SocketMessage message)
+        public static GuildTextMessageContent CreateGuildTextMessageContentFromSocketMessage(IMessage message)
         {
+            ThrowIfContainsNull(message);
             ThrowIfNotRightType(message);
             return ExtractMessageForGuildTextMessageContent(message);
         }
 
-        public static bool IsSocketMessageGuildTextMessage(SocketMessage message)
+        public static bool IsSocketMessageGuildTextMessage(IMessage message)
         {
-            return IsTypeSocketUserMessage(message) && IsChannelTypeSocketTextChannel(message) && IsAuthorSocketGuildUser(message);
+            return IsTypeSocketUserMessage(message) 
+                && IsChannelTypeSocketTextChannel(message)
+                && IsAuthorSocketGuildUser(message)
+                && !IsGuildNull(message);
         }
 
-        private static void ThrowIfNotRightType(SocketMessage message)
+        private static void ThrowIfNotRightType(IMessage message)
         {
             if (!IsSocketMessageGuildTextMessage(message))
             {
@@ -30,28 +33,82 @@ namespace OrbCore.ContentTools
             }
         }
 
-        private static GuildTextMessageContent ExtractMessageForGuildTextMessageContent(SocketMessage message)
+        private static void ThrowIfContainsNull(IMessage message)
+        {
+            if (IsMessageNull(message))
+            {
+                ThrowNullField("message");
+            }
+            else if (IsMessageContentNull(message))
+            {
+                ThrowNullField("message content");
+            }
+            else if (IsChannelNull(message))
+            {
+                ThrowNullField("channel");
+            }
+            else if (IsAuthorNull(message))
+            {
+                ThrowNullField("user");
+            }
+            else if (IsAuthorSocketGuildUser(message) && IsGuildNull(message))
+            {
+                ThrowNullField("guild");
+            }
+        }
+
+        private static void ThrowNullField(string field)
+        {
+            throw new ArgumentNullException($"The {field} field in the message appears to be null");
+        }
+
+        private static GuildTextMessageContent ExtractMessageForGuildTextMessageContent(IMessage message)
         {
             var content = message.Content;
             var user = message.Author;
             var channel = message.Channel;
-            var guild = (message.Author as SocketGuildUser).Guild;
+            var guild = (message.Author as IGuildUser).Guild;
             return new GuildTextMessageContent(message, content, user, channel, guild);
         }
 
-        private static bool IsTypeSocketUserMessage(SocketMessage message)
+        private static bool IsTypeSocketUserMessage(IMessage message)
         {
-            return message.GetType() == typeof(SocketUserMessage);
+            return message is IUserMessage;
         }
 
-        private static bool IsChannelTypeSocketTextChannel(SocketMessage message)
+        private static bool IsMessageNull(IMessage message)
         {
-            return message.Channel.GetType() == typeof(SocketTextChannel);
+            return message == null;
         }
 
-        private static bool IsAuthorSocketGuildUser(SocketMessage message)
+        private static bool IsChannelTypeSocketTextChannel(IMessage message)
         {
-            return message.Author.GetType() == typeof(SocketGuildUser);
+            return message.Channel is ITextChannel;
+        }
+
+        private static bool IsChannelNull(IMessage message)
+        {
+            return message.Channel == null;
+        }
+
+        private static bool IsMessageContentNull(IMessage message)
+        {
+            return message.Content == null;
+        }
+
+        private static bool IsAuthorSocketGuildUser(IMessage message)
+        {
+            return message.Author is IGuildUser;
+        }
+
+        private static bool IsAuthorNull(IMessage message)
+        {
+            return message.Author == null;
+        }
+
+        private static bool IsGuildNull(IMessage message)
+        {
+            return (message.Author as IGuildUser).Guild == null;
         }
     }
 }

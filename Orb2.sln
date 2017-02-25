@@ -7,6 +7,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrameworkTests", "Framework
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrbCore", "OrbCore\OrbCore.csproj", "{F3D8D7E5-B8B9-4B36-91AC-631214619FD7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrbCoreTests", "OrbCoreTests\OrbCoreTests.csproj", "{92514304-F89D-4A59-ADDD-146E89FF00C3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeMaps", "CodeMaps", "{5C933725-3C08-4246-A61F-CB183C9C8EE2}"
+	ProjectSection(SolutionItems) = preProject
+		CodeMaps\DiscordWebsocket.dgml = CodeMaps\DiscordWebsocket.dgml
+		CodeMaps\OrbCore.dgml = CodeMaps\OrbCore.dgml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCommons", "TestCommons\TestCommons.csproj", "{C1543D85-7970-4B80-A885-8BCAB27FFE44}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +31,14 @@ Global
 		{F3D8D7E5-B8B9-4B36-91AC-631214619FD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3D8D7E5-B8B9-4B36-91AC-631214619FD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3D8D7E5-B8B9-4B36-91AC-631214619FD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92514304-F89D-4A59-ADDD-146E89FF00C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92514304-F89D-4A59-ADDD-146E89FF00C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92514304-F89D-4A59-ADDD-146E89FF00C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92514304-F89D-4A59-ADDD-146E89FF00C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1543D85-7970-4B80-A885-8BCAB27FFE44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1543D85-7970-4B80-A885-8BCAB27FFE44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1543D85-7970-4B80-A885-8BCAB27FFE44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1543D85-7970-4B80-A885-8BCAB27FFE44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
