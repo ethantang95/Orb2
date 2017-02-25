@@ -34,7 +34,7 @@ namespace FrameworkTests.Discord.NETTests
             var mainServerId = ulong.Parse(ConfigurationManager.AppSettings["MainServer"]);
             var mainChannelId = ulong.Parse(ConfigurationManager.AppSettings["MainTextChannel"]);
 
-            var channel = await _client.GetGuild(mainServerId).GetTextChannelAsync(mainChannelId);
+            var channel = _client.GetGuild(mainServerId).GetTextChannel(mainChannelId);
             await channel.SendMessageAsync("Hello World");
         }
 
@@ -51,7 +51,7 @@ namespace FrameworkTests.Discord.NETTests
         [Test]
         public async Task ChangeStatus()
         {
-            await _client.SetGame("Testing");
+            await _client.SetGameAsync("Testing");
         }
 
         [Test]
@@ -64,14 +64,14 @@ namespace FrameworkTests.Discord.NETTests
         }
 
         [Test]
-        public async Task GetChannel()
+        public void GetChannel()
         {
             var mainServerId = ulong.Parse(ConfigurationManager.AppSettings["MainServer"]);
             var mainChannelId = ulong.Parse(ConfigurationManager.AppSettings["MainTextChannel"]);
 
             var channel = _client.GetChannel(mainChannelId);
 
-            var textChannel = await _client.GetGuild(mainServerId).GetTextChannelAsync(mainChannelId);
+            var textChannel = _client.GetGuild(mainServerId).GetTextChannel(mainChannelId);
 
             Assert.AreEqual(mainChannelId, channel.Id);
             Assert.AreEqual(mainChannelId, textChannel.Id);
