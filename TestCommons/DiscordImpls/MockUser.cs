@@ -9,19 +9,7 @@ namespace TestCommons.DiscordImpls
 {
     public class MockUser : IUser
     {
-        public ulong Id { get; set; }
-
-        public string Username { get; set; }
-
         public string AvatarId
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public string AvatarUrl
         {
             get
             {
@@ -61,6 +49,8 @@ namespace TestCommons.DiscordImpls
             }
         }
 
+        public ulong Id { get; set; }
+
         public bool IsBot
         {
             get
@@ -85,7 +75,14 @@ namespace TestCommons.DiscordImpls
             }
         }
 
+        public string Username { get; set; }
+
         public Task<IDMChannel> CreateDMChannelAsync(RequestOptions options = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetAvatarUrl(AvatarFormat format = AvatarFormat.Png, ushort size = 128)
         {
             throw new NotImplementedException();
         }

@@ -46,7 +46,7 @@ namespace OrbCore.Core
 
         public async Task SetGame(string game)
         {
-            await _client.SetGame(game);
+            await _client.SetGameAsync(game);
         }
     }
 }

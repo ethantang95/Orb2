@@ -9,12 +9,12 @@ namespace TestCommons.DiscordImpls
 {
     public class MockUserMessage : IUserMessage
     {
+
         public IUser Author { get; set; }
 
         public IMessageChannel Channel { get; set; }
 
         public string Content { get; set; }
-
         public IReadOnlyCollection<IAttachment> Attachments
         {
             get
@@ -163,7 +163,7 @@ namespace TestCommons.DiscordImpls
             throw new NotImplementedException();
         }
 
-        public Task ModifyAsync(Action<ModifyMessageParams> func, RequestOptions options = null)
+        public Task ModifyAsync(Action<MessageProperties> func, RequestOptions options = null)
         {
             throw new NotImplementedException();
         }

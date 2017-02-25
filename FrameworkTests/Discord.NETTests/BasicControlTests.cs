@@ -71,7 +71,9 @@ namespace FrameworkTests.Discord.NETTests
 
             var channel = _client.GetChannel(mainChannelId);
 
-            var textChannel = _client.GetGuild(mainServerId).GetTextChannel(mainChannelId);
+            var guild = _client.GetGuild(mainServerId);
+                
+            var textChannel = guild.GetTextChannel(mainChannelId);
 
             Assert.AreEqual(mainChannelId, channel.Id);
             Assert.AreEqual(mainChannelId, textChannel.Id);

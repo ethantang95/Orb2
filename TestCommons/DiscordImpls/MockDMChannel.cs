@@ -14,7 +14,6 @@ namespace TestCommons.DiscordImpls
         public string Name { get; set; }
 
         public IUser Recipient { get; set; }
-
         public DateTimeOffset CreatedAt
         {
             get
@@ -99,7 +98,7 @@ namespace TestCommons.DiscordImpls
             throw new NotImplementedException();
         }
 
-        public Task<IUserMessage> SendMessageAsync(string text, bool isTTS = false, EmbedBuilder embed = null, RequestOptions options = null)
+        public Task<IUserMessage> SendMessageAsync(string text, bool isTTS = false, Embed embed = null, RequestOptions options = null)
         {
             throw new NotImplementedException();
         }

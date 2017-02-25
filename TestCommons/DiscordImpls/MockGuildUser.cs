@@ -9,19 +9,7 @@ namespace TestCommons.DiscordImpls
 {
     public class MockGuildUser : IGuildUser
     {
-        public IGuild Guild { get; set; }
-
-        public string Username { get; set; }
-
         public string AvatarId
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public string AvatarUrl
         {
             get
             {
@@ -60,6 +48,8 @@ namespace TestCommons.DiscordImpls
                 throw new NotImplementedException();
             }
         }
+
+        public IGuild Guild { get; set; }
 
         public ulong GuildId
         {
@@ -173,6 +163,8 @@ namespace TestCommons.DiscordImpls
             }
         }
 
+        public string Username { get; set; }
+
         public IVoiceChannel VoiceChannel
         {
             get
@@ -194,6 +186,11 @@ namespace TestCommons.DiscordImpls
             throw new NotImplementedException();
         }
 
+        public string GetAvatarUrl(AvatarFormat format = AvatarFormat.Png, ushort size = 128)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IDMChannel> GetDMChannelAsync(CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null)
         {
             throw new NotImplementedException();
@@ -209,7 +206,7 @@ namespace TestCommons.DiscordImpls
             throw new NotImplementedException();
         }
 
-        public Task ModifyAsync(Action<ModifyGuildMemberParams> func, RequestOptions options = null)
+        public Task ModifyAsync(Action<GuildUserProperties> func, RequestOptions options = null)
         {
             throw new NotImplementedException();
         }

@@ -10,8 +10,6 @@ namespace TestCommons.DiscordImpls
 {
     public class MockGuild : IGuild
     {
-        public string Name { get; set; }
-
         public ulong? AFKChannelId
         {
             get
@@ -140,6 +138,8 @@ namespace TestCommons.DiscordImpls
             }
         }
 
+        public string Name { get; set; }
+
         public ulong OwnerId
         {
             get
@@ -228,6 +228,11 @@ namespace TestCommons.DiscordImpls
             throw new NotImplementedException();
         }
 
+        public Task<IVoiceChannel> GetAFKChannelAsync(CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IReadOnlyCollection<IBan>> GetBansAsync(RequestOptions options = null)
         {
             throw new NotImplementedException();
@@ -248,6 +253,16 @@ namespace TestCommons.DiscordImpls
             throw new NotImplementedException();
         }
 
+        public Task<ITextChannel> GetDefaultChannelAsync(CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IVoiceChannel> GetEmbedChannelAsync(CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IReadOnlyCollection<IGuildIntegration>> GetIntegrationsAsync(RequestOptions options = null)
         {
             throw new NotImplementedException();
@@ -258,7 +273,22 @@ namespace TestCommons.DiscordImpls
             throw new NotImplementedException();
         }
 
+        public Task<IGuildUser> GetOwnerAsync(CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null)
+        {
+            throw new NotImplementedException();
+        }
+
         public IRole GetRole(ulong id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ITextChannel> GetTextChannelAsync(ulong id, CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IReadOnlyCollection<ITextChannel>> GetTextChannelsAsync(CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null)
         {
             throw new NotImplementedException();
         }
@@ -273,27 +303,37 @@ namespace TestCommons.DiscordImpls
             throw new NotImplementedException();
         }
 
+        public Task<IVoiceChannel> GetVoiceChannelAsync(ulong id, CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IReadOnlyCollection<IVoiceChannel>> GetVoiceChannelsAsync(CacheMode mode = CacheMode.AllowDownload, RequestOptions options = null)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task LeaveAsync(RequestOptions options = null)
         {
             throw new NotImplementedException();
         }
 
-        public Task ModifyAsync(Action<ModifyGuildParams> func, RequestOptions options = null)
+        public Task ModifyAsync(Action<GuildProperties> func, RequestOptions options = null)
         {
             throw new NotImplementedException();
         }
 
-        public Task ModifyChannelsAsync(IEnumerable<ModifyGuildChannelsParams> args, RequestOptions options = null)
+        public Task ModifyChannelsAsync(IEnumerable<BulkGuildChannelProperties> args, RequestOptions options = null)
         {
             throw new NotImplementedException();
         }
 
-        public Task ModifyEmbedAsync(Action<ModifyGuildEmbedParams> func, RequestOptions options = null)
+        public Task ModifyEmbedAsync(Action<GuildEmbedProperties> func, RequestOptions options = null)
         {
             throw new NotImplementedException();
         }
 
-        public Task ModifyRolesAsync(IEnumerable<ModifyGuildRolesParams> args, RequestOptions options = null)
+        public Task ModifyRolesAsync(IEnumerable<BulkRoleProperties> args, RequestOptions options = null)
         {
             throw new NotImplementedException();
         }
