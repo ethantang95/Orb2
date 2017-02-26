@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Discord;
+using OrbCore.Logger;
 
 namespace OrbCore.Core
 {
@@ -49,6 +50,7 @@ namespace OrbCore.Core
             ConfigureClientIfNotConfigured();
             await _client.LoginAsync(TokenType.Bot, _config.LoginToken);
             await _client.ConnectAsync();
+            await _client.WaitForGuildsAsync();
         }
 
         public async void Stop()
@@ -74,6 +76,7 @@ namespace OrbCore.Core
         private void ConfigureClient()
         {
             RegisterEvents();
+            RegisterLogger();
             SetGame();
             _configured = true;
         }
@@ -98,9 +101,15 @@ namespace OrbCore.Core
             _client.UserLeft += OnUserLeft;
         }
 
+        private void RegisterLogger()
+        {
+            _client.Log += CoreLogger.LogDiscordCore;
+        }
+
         private void UnConfigureClient()
         {
             UnRegisterEvents();
+            UnRegisterLogger();
             _configured = false;
         }
 
@@ -114,6 +123,11 @@ namespace OrbCore.Core
             _client.UserJoined -= OnUserJoined;
             _client.UserBanned -= OnUserBanned;
             _client.UserLeft -= OnUserLeft;
+        }
+
+        private void UnRegisterLogger()
+        {
+            _client.Log -= CoreLogger.LogDiscordCore;
         }
 
         #region events declaration

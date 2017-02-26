@@ -30,6 +30,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'TEST_DNET|AnyCPU'">
+    <OutputPath>bin\TEST_DNET\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Discord.Net.Commands, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Discord.Net.Commands.1.0.0-rc-00606\lib\netstandard1.3\Discord.Net.Commands.dll</HintPath>
@@ -161,6 +164,8 @@
   <ItemGroup>
     <Compile Include="ContentToolsTest\DirectMessageToolsTests.cs" />
     <Compile Include="ContentToolsTest\GuildTextMessageToolsTest.cs" />
+    <Compile Include="LoggerTest\CoreLoggerTest.cs" />
+    <Compile Include="LoggerTest\TestLoggerReceiver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

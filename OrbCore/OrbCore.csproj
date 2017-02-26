@@ -22,12 +22,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;RELEASE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'TEST_DNET|AnyCPU'">
+    <OutputPath>bin\TEST_DNET\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Discord.Net.Commands, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -59,6 +65,10 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.2-beta2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -174,6 +184,7 @@
     <Compile Include="Interfaces\Core\ICoreAPI.cs" />
     <Compile Include="Interfaces\Core\ICoreQuery.cs" />
     <Compile Include="Interfaces\Core\IOrbCore.cs" />
+    <Compile Include="Interfaces\EventLogger\IEventLoggerReceiver.cs" />
     <Compile Include="Interfaces\Receivers\IDirectMessageReceiver.cs" />
     <Compile Include="Interfaces\Receivers\IDiscordReadyReceiver.cs" />
     <Compile Include="Interfaces\Receivers\IDiscordDisconnectedReceiver.cs" />
@@ -184,6 +195,8 @@
     <Compile Include="Interfaces\Receivers\IUserJoinedReceiver.cs" />
     <Compile Include="Interfaces\Receivers\IUserLeftReceiver.cs" />
     <Compile Include="Core\OrbCore.cs" />
+    <Compile Include="Logger\CoreLogger.cs" />
+    <Compile Include="Logger\CoreLogMessage.cs" />
     <Compile Include="OrbCoreFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ContentStructures\GuildTextMessageContent.cs" />
@@ -192,9 +205,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Logger\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

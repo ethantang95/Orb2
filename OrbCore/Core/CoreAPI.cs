@@ -1,6 +1,8 @@
 ﻿using Discord.WebSocket;
 using HelperCore.Optional;
 using OrbCore.Interfaces.Core;
+using OrbCore.Interfaces.EventLogger;
+using OrbCore.Logger;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -47,6 +49,11 @@ namespace OrbCore.Core
         public async Task SetGame(string game)
         {
             await _client.SetGameAsync(game);
+        }
+
+        public void AddReceiver(IEventLoggerReceiver receiver)
+        {
+            CoreLogger.AddReceiver(receiver);
         }
     }
 }

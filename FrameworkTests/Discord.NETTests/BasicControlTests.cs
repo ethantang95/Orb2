@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace FrameworkTests.Discord.NETTests
 {
+#if TEST_DNET
     [TestFixture]
     public class BasicControlTests
     {
@@ -127,4 +128,5 @@ namespace FrameworkTests.Discord.NETTests
             return client;
         }
     }
+#endif
 }
