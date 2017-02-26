@@ -5,9 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrbCore.Core
-{
-    public class CoreQuery : ICoreQuery
-    {
+namespace OrbCore.Core {
+    public class CoreQuery : ICoreQuery {
     }
 }

@@ -6,10 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrbCore.Core.Config
-{
-    public class CoreConfig
-    {
+namespace OrbCore.Core.Config {
+    public class CoreConfig {
         public string LoginToken { get; set; }
         public Optional<string> StartingGame { get; set; }
 
@@ -24,8 +22,7 @@ namespace OrbCore.Core.Config
         public Optional<IUserBannedReceiver> UserBannedReceiver { get; set; }
         public Optional<IUserLeftReceiver> UserLeftReceiver { get; set; }
 
-        public CoreConfig(string loginToken)
-        {
+        public CoreConfig(string loginToken) {
             LoginToken = loginToken;
             StartingGame = Optional<string>.FromNull();
 

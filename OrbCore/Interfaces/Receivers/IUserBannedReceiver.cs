@@ -6,10 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrbCore.Interfaces.Receivers
-{
-    public interface IUserBannedReceiver
-    {
+namespace OrbCore.Interfaces.Receivers {
+    public interface IUserBannedReceiver {
         Task OnUserBanned(GuildUserEventContent guildUserEvent);
     }
 }

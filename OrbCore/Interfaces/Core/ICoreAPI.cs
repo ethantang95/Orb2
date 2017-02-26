@@ -7,10 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrbCore.Interfaces.Core
-{
-    public interface ICoreAPI
-    {
+namespace OrbCore.Interfaces.Core {
+    public interface ICoreAPI {
         Task SetGame(string game);
         Task SendMessage(string message, ISocketMessageChannel channel);
         Task SendFileFromStream(Stream file, ISocketMessageChannel channel);

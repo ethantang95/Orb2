@@ -6,79 +6,65 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrbCore.Core.Config
-{
-    public class CoreConfigBuilder
-    {
+namespace OrbCore.Core.Config {
+    public class CoreConfigBuilder {
         CoreConfig _config;
 
-        public CoreConfigBuilder(string token)
-        {
+        public CoreConfigBuilder(string token) {
             _config = new CoreConfig(token);
         }
 
-        public CoreConfigBuilder SetStartingGame(string game)
-        {
+        public CoreConfigBuilder SetStartingGame(string game) {
             _config.StartingGame = Optional.From(game);
             return this;
         }
 
-        public CoreConfigBuilder SetDirectMessageReceiver(IDirectMessageReceiver receiver)
-        {
+        public CoreConfigBuilder SetDirectMessageReceiver(IDirectMessageReceiver receiver) {
             _config.DirectMessageReceiver = Optional.From(receiver);
             return this;
         }
 
-        public CoreConfigBuilder SetDiscordDisconnectReceiver(IDiscordDisconnectedReceiver receiver)
-        {
+        public CoreConfigBuilder SetDiscordDisconnectReceiver(IDiscordDisconnectedReceiver receiver) {
             _config.DiscordDisconnectedReceiver = Optional.From(receiver);
             return this;
         }
 
-        public CoreConfigBuilder SetDiscordReadyReceiver(IDiscordReadyReceiver receiver)
-        {
+        public CoreConfigBuilder SetDiscordReadyReceiver(IDiscordReadyReceiver receiver) {
             _config.DiscordReadyReceiver = Optional.From(receiver);
             return this;
         }
 
-        public CoreConfigBuilder SetGuildJoinedReceiver(IGuildJoinedReceiver receiver)
-        {
+        public CoreConfigBuilder SetGuildJoinedReceiver(IGuildJoinedReceiver receiver) {
             _config.GuildJoinedReceiver = Optional.From(receiver);
             return this;
         }
 
-        public CoreConfigBuilder SetGuildLeftReceiver(IGuildLeftReceiver receiver)
-        {
+        public CoreConfigBuilder SetGuildLeftReceiver(IGuildLeftReceiver receiver) {
             _config.GuildLeftReceiver = Optional.From(receiver);
             return this;
         }
 
-        public CoreConfigBuilder SetGuildTextMessageReceiver(IGuildTextMessageReceiver receiver)
-        {
+        public CoreConfigBuilder SetGuildTextMessageReceiver(IGuildTextMessageReceiver receiver) {
             _config.GuildTextMessageReceiver = Optional.From(receiver);
             return this;
         }
 
-        public CoreConfigBuilder SetUserJoinedReceiver(IUserJoinedReceiver receiver)
-        {
+        public CoreConfigBuilder SetUserJoinedReceiver(IUserJoinedReceiver receiver) {
             _config.UserJoinedReceiver = Optional.From(receiver);
             return this;
         }
 
-        public CoreConfigBuilder SetUserBannedReceiver(IUserBannedReceiver receiver)
-        {
+        public CoreConfigBuilder SetUserBannedReceiver(IUserBannedReceiver receiver) {
             _config.UserBannedReceiver = Optional.From(receiver);
             return this;
         }
 
-        public CoreConfigBuilder SetUserLeftReceiver(IUserLeftReceiver receiver)
-        {
+        public CoreConfigBuilder SetUserLeftReceiver(IUserLeftReceiver receiver) {
             _config.UserLeftReceiver = Optional.From(receiver);
             return this;
         }
 
-        public CoreConfig Build()
-        {
+        public CoreConfig Build() {
             return _config;
         }
     }

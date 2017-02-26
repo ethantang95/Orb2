@@ -11,10 +11,8 @@ using System.Threading.Tasks;
 using Discord;
 using OrbCore.Logger;
 
-namespace OrbCore.Core
-{
-    public class OrbCore : IOrbCore
-    {
+namespace OrbCore.Core {
+    public class OrbCore : IOrbCore {
         public ICoreAPI CoreAPI { get; private set; }
         public ICoreQuery CoreQuery { get; private set; }
 
@@ -22,8 +20,7 @@ namespace OrbCore.Core
         CoreConfig _config;
         bool _configured;
 
-        internal OrbCore(CoreConfig config, DiscordSocketClient client, ICoreAPI coreApi, ICoreQuery coreQuery)
-        {
+        internal OrbCore(CoreConfig config, DiscordSocketClient client, ICoreAPI coreApi, ICoreQuery coreQuery) {
             _config = config;
             CoreAPI = coreApi;
             CoreQuery = coreQuery;
@@ -31,66 +28,55 @@ namespace OrbCore.Core
             _client = client;
         }
 
-        public void Reconfig(CoreConfig config)
-        {
+        public void Reconfig(CoreConfig config) {
             _config = config;
             Stop();
             UnConfigureClient();
             Start();
         }
 
-        public void Restart()
-        {
+        public void Restart() {
             Stop();
             Start();
         }
 
-        public async void Start()
-        {
+        public async void Start() {
             ConfigureClientIfNotConfigured();
             await _client.LoginAsync(TokenType.Bot, _config.LoginToken);
             await _client.ConnectAsync();
             await _client.WaitForGuildsAsync();
         }
 
-        public async void Stop()
-        {
+        public async void Stop() {
             await _client.DisconnectAsync();
             await _client.LogoutAsync();
         }
 
-        public void Dispose()
-        {
+        public void Dispose() {
             Stop();
             UnConfigureClient();
         }
 
-        private void ConfigureClientIfNotConfigured()
-        {
-            if (!_configured)
-            {
+        private void ConfigureClientIfNotConfigured() {
+            if (!_configured) {
                 ConfigureClient();
             }
         }
 
-        private void ConfigureClient()
-        {
+        private void ConfigureClient() {
             RegisterEvents();
             RegisterLogger();
             SetGame();
             _configured = true;
         }
 
-        private void SetGame()
-        {
-            if (_config.StartingGame.Present)
-            {
+        private void SetGame() {
+            if (_config.StartingGame.Present) {
                 CoreAPI.SetGame(_config.StartingGame.Value);
             }
         }
 
-        private void RegisterEvents()
-        {
+        private void RegisterEvents() {
             _client.MessageReceived += OnMessageReceived;
             _client.Disconnected += OnDisconnected;
             _client.Ready += OnReady;
@@ -101,20 +87,17 @@ namespace OrbCore.Core
             _client.UserLeft += OnUserLeft;
         }
 
-        private void RegisterLogger()
-        {
+        private void RegisterLogger() {
             _client.Log += CoreLogger.LogDiscordCore;
         }
 
-        private void UnConfigureClient()
-        {
+        private void UnConfigureClient() {
             UnRegisterEvents();
             UnRegisterLogger();
             _configured = false;
         }
 
-        private void UnRegisterEvents()
-        {
+        private void UnRegisterEvents() {
             _client.MessageReceived -= OnMessageReceived;
             _client.Disconnected -= OnDisconnected;
             _client.Ready -= OnReady;
@@ -125,98 +108,108 @@ namespace OrbCore.Core
             _client.UserLeft -= OnUserLeft;
         }
 
-        private void UnRegisterLogger()
-        {
+        private void UnRegisterLogger() {
             _client.Log -= CoreLogger.LogDiscordCore;
         }
 
         #region events declaration
-        private async Task OnMessageReceived(SocketMessage message)
-        {
-            if (GuildTextMessageTools.IsSocketMessageGuildTextMessage(message))
-            {
-                await HandleGuildTextMessage(message);
-            }
-            else if (DirectMessageTools.IsSocketMessageDirectMessage(message))
-            {
-                await HandleDirectMessage(message);
+        private async Task OnMessageReceived(SocketMessage message) {
+            try {
+                if (GuildTextMessageTools.IsSocketMessageGuildTextMessage(message)) {
+                    await HandleGuildTextMessage(message);
+                } else if (DirectMessageTools.IsSocketMessageDirectMessage(message)) {
+                    await HandleDirectMessage(message);
+                }
+            } catch (Exception ex) {
+                CoreLogger.LogException(ex);
             }
         }
 
-        private async Task HandleGuildTextMessage(SocketMessage message)
-        {
-            if (_config.GuildTextMessageReceiver.Present)
-            {
+        private async Task HandleGuildTextMessage(SocketMessage message) {
+            if (_config.GuildTextMessageReceiver.Present) {
                 var messageContent = GuildTextMessageTools.CreateGuildTextMessageContentFromSocketMessage(message);
                 await _config.GuildTextMessageReceiver.Value.OnGuildTextMessageReceived(messageContent);
             }
         }
 
-        private async Task HandleDirectMessage(SocketMessage message)
-        {
-            if (_config.DirectMessageReceiver.Present)
-            {
+        private async Task HandleDirectMessage(SocketMessage message) {
+            if (_config.DirectMessageReceiver.Present) {
                 var messageContent = DirectMessageTools.CreateDirectMessageContentFromSocketMessage(message);
                 await _config.DirectMessageReceiver.Value.OnDirectMessageReceived(messageContent);
             }
         }
 
-        private async Task OnDisconnected(Exception exception)
-        {
-            if (_config.DiscordDisconnectedReceiver.Present)
-            {
-                await _config.DiscordDisconnectedReceiver.Value.OnDiscordDisconnected(exception);
+        private async Task OnDisconnected(Exception exception) {
+            try {
+                if (_config.DiscordDisconnectedReceiver.Present) {
+                    await _config.DiscordDisconnectedReceiver.Value.OnDiscordDisconnected(exception);
+                }
+            } catch (Exception ex) {
+                CoreLogger.LogException(ex, "Failure to disconnect", LogLevel.Critical);
             }
         }
 
-        private async Task OnReady()
-        {
-            if (_config.DiscordReadyReceiver.Present)
-            {
-                await _config.DiscordReadyReceiver.Value.OnDiscordReady();
+        private async Task OnReady() {
+            try {
+                if (_config.DiscordReadyReceiver.Present) {
+                    await _config.DiscordReadyReceiver.Value.OnDiscordReady();
+                }
+            } catch (Exception ex) {
+                CoreLogger.LogException(ex, "Failure to be ready", LogLevel.Critical);
+                //maybe more stuff need to be done here
             }
         }
 
-        private async Task OnJoinedGuild(SocketGuild guild)
-        {
-            if (_config.GuildJoinedReceiver.Present)
-            {
-                await _config.GuildJoinedReceiver.Value.OnGuildJoined(guild);
+        private async Task OnJoinedGuild(SocketGuild guild) {
+            try {
+                if (_config.GuildJoinedReceiver.Present) {
+                    await _config.GuildJoinedReceiver.Value.OnGuildJoined(guild);
+                }
+            } catch (Exception ex) {
+                CoreLogger.LogException(ex);
             }
         }
 
-        private async Task OnLeftGuild(SocketGuild guild)
-        {
-            if (_config.GuildLeftReceiver.Present)
-            {
-                await _config.GuildLeftReceiver.Value.OnGuildLeft(guild);
+        private async Task OnLeftGuild(SocketGuild guild) {
+            try {
+                if (_config.GuildLeftReceiver.Present) {
+                    await _config.GuildLeftReceiver.Value.OnGuildLeft(guild);
+                }
+            } catch (Exception ex) {
+                CoreLogger.LogException(ex);
             }
         }
 
-        private async Task OnUserJoined(SocketGuildUser user)
-        {
-            if (_config.UserJoinedReceiver.Present)
-            {
-                var eventContent = GuildUserEventTools.CreateGuildUserEventContentFromSocketGuildUser(user);
-                await _config.UserJoinedReceiver.Value.OnUserJoined(eventContent);
+        private async Task OnUserJoined(SocketGuildUser user) {
+            try {
+                if (_config.UserJoinedReceiver.Present) {
+                    var eventContent = GuildUserEventTools.CreateGuildUserEventContentFromSocketGuildUser(user);
+                    await _config.UserJoinedReceiver.Value.OnUserJoined(eventContent);
+                }
+            } catch (Exception ex) {
+                CoreLogger.LogException(ex);
             }
         }
 
-        private async Task OnUserBanned(SocketUser user, SocketGuild guild)
-        {
-            if (_config.UserBannedReceiver.Present)
-            {
-                var eventContent = new GuildUserEventContent(user, guild);
-                await _config.UserBannedReceiver.Value.OnUserBanned(eventContent);
+        private async Task OnUserBanned(SocketUser user, SocketGuild guild) {
+            try {
+                if (_config.UserBannedReceiver.Present) {
+                    var eventContent = new GuildUserEventContent(user, guild);
+                    await _config.UserBannedReceiver.Value.OnUserBanned(eventContent);
+                }
+            } catch (Exception ex) {
+                CoreLogger.LogException(ex);
             }
         }
 
-        private async Task OnUserLeft(SocketGuildUser user)
-        {
-            if (_config.UserLeftReceiver.Present)
-            {
-                var eventContent = GuildUserEventTools.CreateGuildUserEventContentFromSocketGuildUser(user);
-                await _config.UserLeftReceiver.Value.OnUserLeft(eventContent);
+        private async Task OnUserLeft(SocketGuildUser user) {
+            try {
+                if (_config.UserLeftReceiver.Present) {
+                    var eventContent = GuildUserEventTools.CreateGuildUserEventContentFromSocketGuildUser(user);
+                    await _config.UserLeftReceiver.Value.OnUserLeft(eventContent);
+                }
+            } catch (Exception ex) {
+                CoreLogger.LogException(ex);
             }
         }
         #endregion

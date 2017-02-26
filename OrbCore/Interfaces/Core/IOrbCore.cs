@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 using OrbCore.Core.Config;
 
-namespace OrbCore.Interfaces.Core
-{
-    public interface IOrbCore : IDisposable
-    {
+namespace OrbCore.Interfaces.Core {
+    public interface IOrbCore : IDisposable {
         ICoreAPI CoreAPI { get; }
         ICoreQuery CoreQuery { get; }
 

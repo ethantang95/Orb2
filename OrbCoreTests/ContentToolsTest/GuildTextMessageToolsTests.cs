@@ -8,14 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using TestCommons.DiscordImpls;
 
-namespace OrbCoreTests.ContentToolsTest
-{
+namespace OrbCoreTests.ContentToolsTest {
     [TestFixture]
-    class GuildTextMessageToolsTests
-    {
+    class GuildTextMessageToolsTests {
         [Test]
-        public void TestValidatingDMContent()
-        {
+        public void TestValidatingDMContent() {
             var msg = CreateMockMsg();
 
             var result = GuildTextMessageTools.IsSocketMessageGuildTextMessage(msg);
@@ -24,8 +21,7 @@ namespace OrbCoreTests.ContentToolsTest
         }
 
         [Test]
-        public void TestCreatingDMContent()
-        {
+        public void TestCreatingDMContent() {
             var msg = CreateMockMsg();
 
             var result = GuildTextMessageTools.CreateGuildTextMessageContentFromSocketMessage(msg);
@@ -38,8 +34,7 @@ namespace OrbCoreTests.ContentToolsTest
         }
 
         [Test]
-        public void TestMessageNotGuildChannelMsg()
-        {
+        public void TestMessageNotGuildChannelMsg() {
             var msg = new MockUserMessage();
             msg.Channel = new MockDMChannel();
             msg.Author = new MockUser();
@@ -49,8 +44,7 @@ namespace OrbCoreTests.ContentToolsTest
         }
 
         [Test]
-        public void TestMessageNotUserMessage()
-        {
+        public void TestMessageNotUserMessage() {
             var msg = new MockSystemMessage();
             msg.Channel = new MockTextChannel();
             msg.Author = new MockUser();
@@ -60,8 +54,7 @@ namespace OrbCoreTests.ContentToolsTest
         }
 
         [Test]
-        public void TestUserNotGuildUser()
-        {
+        public void TestUserNotGuildUser() {
             var msg = new MockUserMessage();
             msg.Channel = new MockTextChannel();
             msg.Author = new MockUser();
@@ -73,14 +66,12 @@ namespace OrbCoreTests.ContentToolsTest
         }
 
         [Test]
-        public void TestNullMessage()
-        {
+        public void TestNullMessage() {
             Assert.Throws<ArgumentNullException>(() => GuildTextMessageTools.CreateGuildTextMessageContentFromSocketMessage(null));
         }
 
         [Test]
-        public void TestNullMessageContent()
-        {
+        public void TestNullMessageContent() {
             var msg = new MockUserMessage();
             msg.Channel = new MockTextChannel();
             msg.Author = new MockGuildUser() { Guild = new MockGuild() };
@@ -90,8 +81,7 @@ namespace OrbCoreTests.ContentToolsTest
         }
 
         [Test]
-        public void TestNullChannel()
-        {
+        public void TestNullChannel() {
             var msg = new MockUserMessage();
             msg.Channel = null;
             msg.Author = new MockGuildUser() { Guild = new MockGuild() };
@@ -101,8 +91,7 @@ namespace OrbCoreTests.ContentToolsTest
         }
 
         [Test]
-        public void TestNullUser()
-        {
+        public void TestNullUser() {
             var msg = new MockUserMessage();
             msg.Channel = new MockTextChannel();
             msg.Author = null;
@@ -112,8 +101,7 @@ namespace OrbCoreTests.ContentToolsTest
         }
 
         [Test]
-        public void TestNullGuild()
-        {
+        public void TestNullGuild() {
             var msg = new MockUserMessage();
             msg.Channel = new MockTextChannel();
             msg.Author = new MockGuildUser();
@@ -122,8 +110,7 @@ namespace OrbCoreTests.ContentToolsTest
             Assert.Throws<ArgumentNullException>(() => GuildTextMessageTools.CreateGuildTextMessageContentFromSocketMessage(msg));
         }
 
-        private IMessage CreateMockMsg()
-        {
+        private IMessage CreateMockMsg() {
             var dm = new MockUserMessage();
             var channel = new MockTextChannel();
             var author = new MockGuildUser();

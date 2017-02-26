@@ -8,8 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FrameworkTests.Discord.NETTests
-{
+namespace FrameworkTests.Discord.NETTests {
 #if TEST_DNET
     [TestFixture]
     public class BasicControlTests

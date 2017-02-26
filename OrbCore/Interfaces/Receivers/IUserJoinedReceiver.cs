@@ -6,10 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrbCore.Interfaces.Receivers
-{
-    public interface IUserJoinedReceiver
-    {
+namespace OrbCore.Interfaces.Receivers {
+    public interface IUserJoinedReceiver {
         Task OnUserJoined(GuildUserEventContent guildUserEvent);
     }
 }

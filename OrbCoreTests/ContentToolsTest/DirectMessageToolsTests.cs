@@ -9,14 +9,11 @@ using System.Text;
 using System.Threading.Tasks;
 using TestCommons.DiscordImpls;
 
-namespace OrbCoreTests.ContentToolsTest
-{
+namespace OrbCoreTests.ContentToolsTest {
     [TestFixture]
-    class DirectMessageToolsTests
-    {
+    class DirectMessageToolsTests {
         [Test]
-        public void TestValidatingDMContent()
-        {
+        public void TestValidatingDMContent() {
             var dm = CreateMockDM();
 
             var result = DirectMessageTools.IsSocketMessageDirectMessage(dm);
@@ -25,8 +22,7 @@ namespace OrbCoreTests.ContentToolsTest
         }
 
         [Test]
-        public void TestCreatingDMContent()
-        {
+        public void TestCreatingDMContent() {
             var dm = CreateMockDM();
 
             var result = DirectMessageTools.CreateDirectMessageContentFromSocketMessage(dm);
@@ -38,8 +34,7 @@ namespace OrbCoreTests.ContentToolsTest
         }
 
         [Test]
-        public void TestMessageNotDM()
-        {
+        public void TestMessageNotDM() {
             var dm = new MockUserMessage();
             dm.Channel = new MockTextChannel();
             dm.Author = new MockGuildUser();
@@ -49,8 +44,7 @@ namespace OrbCoreTests.ContentToolsTest
         }
 
         [Test]
-        public void TestMessageNotUserMessage()
-        {
+        public void TestMessageNotUserMessage() {
             var dm = new MockSystemMessage();
             dm.Channel = new MockTextChannel();
             dm.Author = new MockUser();
@@ -60,14 +54,12 @@ namespace OrbCoreTests.ContentToolsTest
         }
 
         [Test]
-        public void TestMessageNull()
-        {
+        public void TestMessageNull() {
             Assert.Throws<ArgumentNullException>(() => DirectMessageTools.CreateDirectMessageContentFromSocketMessage(null));
         }
 
         [Test]
-        public void TestMessageContentNull()
-        {
+        public void TestMessageContentNull() {
             var dm = new MockUserMessage();
             dm.Author = new MockUser();
             dm.Channel = new MockDMChannel();
@@ -76,8 +68,7 @@ namespace OrbCoreTests.ContentToolsTest
         }
 
         [Test]
-        public void TestChannelNull()
-        {
+        public void TestChannelNull() {
             var dm = new MockUserMessage();
             dm.Author = new MockUser();
             dm.Content = "";
@@ -86,8 +77,7 @@ namespace OrbCoreTests.ContentToolsTest
         }
 
         [Test]
-        public void TestUserNull()
-        {
+        public void TestUserNull() {
             var dm = new MockUserMessage();
             dm.Channel = new MockDMChannel();
             dm.Content = "";
@@ -95,8 +85,7 @@ namespace OrbCoreTests.ContentToolsTest
             Assert.Throws<ArgumentNullException>(() => DirectMessageTools.CreateDirectMessageContentFromSocketMessage(dm));
         }
 
-        private IMessage CreateMockDM()
-        {
+        private IMessage CreateMockDM() {
             var dm = new MockUserMessage();
             var channel = new MockDMChannel();
             var author = new MockUser();
