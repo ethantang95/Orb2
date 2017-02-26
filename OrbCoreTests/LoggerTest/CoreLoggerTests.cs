@@ -12,7 +12,7 @@ using static System.Diagnostics.DebuggableAttribute;
 namespace OrbCoreTests.LoggerTest
 {
     [TestFixture]
-    class CoreLoggerTest
+    class CoreLoggerTests
     {
         TestLoggerReceiver _receiver;
 
@@ -55,6 +55,23 @@ namespace OrbCoreTests.LoggerTest
             AssertMessageMetaData(message);
         }
 
+        [Test]
+        public void TestLogExceptionDefault()
+        {
+            CoreLogger.LogException(new Exception("this is an exception"));
+            var message = AssertSeverityAndGetMessage(LogLevel.Error);
+            AssertMessageMetaData(message);
+            Assert.True(message.Message.Contains("EXCEPTION"));
+        }
+
+        [Test]
+        public void TestLogExceptionDiffLevel()
+        {
+            CoreLogger.LogException(new Exception("this is an exception"), "EXCEPTION", LogLevel.Critical);
+            var message = AssertSeverityAndGetMessage(LogLevel.Critical);
+            AssertMessageMetaData(message);
+        }
+
         private CoreLogMessage AssertSeverityAndGetMessage(LogLevel level)
         {
             Wait();
@@ -71,7 +88,7 @@ namespace OrbCoreTests.LoggerTest
 
         private void Wait()
         {
-            Task.Delay(5).Wait();
+            Task.Delay(1).Wait();
         }
 
         private string GetCurrentMethod(int index)
@@ -82,46 +99,6 @@ namespace OrbCoreTests.LoggerTest
         private string GetCurrentFile()
         {
             return new StackTrace(true).GetFrame(0).GetFileName().Split('\\').Last();
-        }
-
-        private LogMessage CreateVerboseDiscordCoreLog()
-        {
-            return CreateDiscordCoreLog("This is Verbose", LogSeverity.Verbose);
-        }
-
-        private LogMessage CreateDebugDiscordCoreLog()
-        {
-            return CreateDiscordCoreLog("This is Debug", LogSeverity.Debug);
-        }
-
-        private LogMessage CreateInfoDiscordCoreLog()
-        {
-            return CreateDiscordCoreLog("This is Info", LogSeverity.Info);
-        }
-
-        private LogMessage CreateWarningDiscordCoreLog()
-        {
-            return CreateDiscordCoreLog("This is Warning", LogSeverity.Warning);
-        }
-
-        private LogMessage CreateErrorDiscordCoreLog()
-        {
-            return CreateDiscordCoreLog("This is Error", LogSeverity.Error);
-        }
-
-        private LogMessage CreateCriticalDiscordCoreLog()
-        {
-            return CreateDiscordCoreLog("This is Critical", LogSeverity.Critical);
-        }
-
-        private LogMessage CreateExceptionDiscordCoreLog()
-        {
-            return CreateDiscordCoreLog("This is a Critical with an Exception", LogSeverity.Critical, new Exception("Here is the exception"));
-        }
-
-        private LogMessage CreateDiscordCoreLog(string message, LogSeverity severity, Exception exception = null)
-        {
-            return new LogMessage(severity, "CoreLoggerTest", message, exception);
         }
     }
 }

@@ -11,7 +11,7 @@ using TestCommons.DiscordImpls;
 namespace OrbCoreTests.ContentToolsTest
 {
     [TestFixture]
-    class GuildTextMessageToolsTest
+    class GuildTextMessageToolsTests
     {
         [Test]
         public void TestValidatingDMContent()

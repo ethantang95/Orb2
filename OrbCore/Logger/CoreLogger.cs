@@ -48,7 +48,7 @@ namespace OrbCore.Logger
 
         public static void LogException(Exception exception, string message = "EXCEPTION", LogLevel level = LogLevel.Error ,[CallerMemberName]string methodName = "", [CallerFilePath]string filePath = "")
         {
-            var fullMsg = $"{message} - {exception.ToString()}";
+            var fullMsg = $"{message}: {exception.ToString()}";
             LogMessage(fullMsg, methodName, filePath, level);
         }
 

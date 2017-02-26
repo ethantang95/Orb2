@@ -163,8 +163,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentToolsTest\DirectMessageToolsTests.cs" />
-    <Compile Include="ContentToolsTest\GuildTextMessageToolsTest.cs" />
-    <Compile Include="LoggerTest\CoreLoggerTest.cs" />
+    <Compile Include="ContentToolsTest\GuildTextMessageToolsTests.cs" />
+    <Compile Include="LoggerTest\CoreLoggerTests.cs" />
+    <Compile Include="LoggerTest\DiscordCoreLogTests.cs" />
     <Compile Include="LoggerTest\TestLoggerReceiver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
