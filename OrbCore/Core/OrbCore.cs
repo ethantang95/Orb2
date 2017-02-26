@@ -12,7 +12,7 @@ using Discord;
 using OrbCore.Logger;
 
 namespace OrbCore.Core {
-    public class OrbCore : IOrbCore {
+    public class OrbCore : IOrbCore, IDisposable {
         public ICoreAPI CoreAPI { get; private set; }
         public ICoreQuery CoreQuery { get; private set; }
 
@@ -29,30 +29,38 @@ namespace OrbCore.Core {
         }
 
         public void Reconfig(CoreConfig config) {
+            CoreLogger.LogWarning("Client reconfigure called");
             _config = config;
             Stop();
             UnConfigureClient();
             Start();
+            CoreLogger.LogVerbose("Client successfully reconfigured");
         }
 
         public void Restart() {
+            CoreLogger.LogWarning("Client restart called");
             Stop();
             Start();
+            CoreLogger.LogVerbose("Client successfully restarted");
         }
 
         public async void Start() {
             ConfigureClientIfNotConfigured();
             await _client.LoginAsync(TokenType.Bot, _config.LoginToken);
             await _client.ConnectAsync();
+            CoreLogger.LogWarning("Client successfuly logged in and connected");
             await _client.WaitForGuildsAsync();
+            CoreLogger.LogVerbose("Downloaded all guild meta info");
         }
 
         public async void Stop() {
             await _client.DisconnectAsync();
             await _client.LogoutAsync();
+            CoreLogger.LogWarning("Client successfully disconnected");
         }
 
         public void Dispose() {
+            CoreLogger.LogWarning("Client dispose called");
             Stop();
             UnConfigureClient();
         }
@@ -60,14 +68,18 @@ namespace OrbCore.Core {
         private void ConfigureClientIfNotConfigured() {
             if (!_configured) {
                 ConfigureClient();
+            } else {
+                CoreLogger.LogVerbose("Client already configured");
             }
         }
 
         private void ConfigureClient() {
+            CoreLogger.LogVerbose("Configuring client");
             RegisterEvents();
             RegisterLogger();
             SetGame();
             _configured = true;
+            CoreLogger.LogVerbose("Client configured successfully");
         }
 
         private void SetGame() {
@@ -92,9 +104,11 @@ namespace OrbCore.Core {
         }
 
         private void UnConfigureClient() {
+            CoreLogger.LogVerbose("Unconfiguring client");
             UnRegisterEvents();
             UnRegisterLogger();
             _configured = false;
+            CoreLogger.LogVerbose("Client successfully unconfigured");
         }
 
         private void UnRegisterEvents() {
