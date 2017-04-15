@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord;
 using OrbCore.Logger;
+using System.Threading;
 
 namespace OrbCore.Core {
     public class OrbCore : IOrbCore, IDisposable {
@@ -47,14 +48,14 @@ namespace OrbCore.Core {
         public async void Start() {
             ConfigureClientIfNotConfigured();
             await _client.LoginAsync(TokenType.Bot, _config.LoginToken);
-            await _client.ConnectAsync();
+            await _client.StartAsync();
             CoreLogger.LogWarning("Client successfuly logged in and connected");
-            await _client.WaitForGuildsAsync();
+            await WaitForReady();
             CoreLogger.LogVerbose("Downloaded all guild meta info");
         }
 
         public async void Stop() {
-            await _client.DisconnectAsync();
+            await _client.StopAsync();
             await _client.LogoutAsync();
             CoreLogger.LogWarning("Client successfully disconnected");
         }
@@ -124,6 +125,31 @@ namespace OrbCore.Core {
 
         private void UnRegisterLogger() {
             _client.Log -= CoreLogger.LogDiscordCore;
+        }
+
+        private Task WaitForReady() {
+            var readied = false;
+            var completeEvent = new AutoResetEvent(false);
+
+            Func<Task> readyCallback = () => {
+                readied = true;
+                completeEvent.Set();
+                return Task.CompletedTask;
+            };
+
+            _client.Ready += readyCallback;
+            completeEvent.WaitOne(30000);
+            ThrowIfTimedOut(!readied);
+            _client.Ready -= readyCallback;
+
+            return Task.CompletedTask;
+        }
+
+        private void ThrowIfTimedOut(bool timedOut) {
+            if (timedOut) {
+                CoreLogger.LogCritical("Timed out connecting to discord.net");
+                throw new TimeoutException("Cannot connect to discord.net. Please try again later");
+            }
         }
 
         #region events declaration

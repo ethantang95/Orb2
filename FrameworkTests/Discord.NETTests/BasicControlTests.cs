@@ -6,32 +6,29 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FrameworkTests.Discord.NETTests {
 #if TEST_DNET
     [TestFixture]
-    public class BasicControlTests
-    {
+    public class BasicControlTests {
         private static DiscordSocketClient _client;
         [OneTimeSetUp]
-        public async Task SetUp()
-        {
+        public async Task SetUp() {
             _client = await Connect();
-            await _client.WaitForGuildsAsync();
+            await WaitForReady();
 
             Console.WriteLine("connected");
         }
 
         [Test]
-        public void EnsureLoggedOn()
-        {
+        public void EnsureLoggedOn() {
             Assert.True(_client.ConnectionState == ConnectionState.Connected);
         }
 
         [Test]
-        public async Task SendMessage()
-        {
+        public async Task SendMessage() {
             var mainServerId = ulong.Parse(ConfigurationManager.AppSettings["MainServer"]);
             var mainChannelId = ulong.Parse(ConfigurationManager.AppSettings["MainTextChannel"]);
 
@@ -40,8 +37,7 @@ namespace FrameworkTests.Discord.NETTests {
         }
 
         [Test]
-        public async Task SendPrivateMessage()
-        {
+        public async Task SendPrivateMessage() {
             var mainDevId = ulong.Parse(ConfigurationManager.AppSettings["MainDev"]);
 
             var channel = await _client.GetUser(mainDevId).CreateDMChannelAsync();
@@ -50,14 +46,12 @@ namespace FrameworkTests.Discord.NETTests {
         }
 
         [Test]
-        public async Task ChangeStatus()
-        {
+        public async Task ChangeStatus() {
             await _client.SetGameAsync("Testing");
         }
 
         [Test]
-        public void GetGuild()
-        {
+        public void GetGuild() {
             var mainServerId = ulong.Parse(ConfigurationManager.AppSettings["MainServer"]);
             var guild = _client.GetGuild(mainServerId);
 
@@ -65,15 +59,14 @@ namespace FrameworkTests.Discord.NETTests {
         }
 
         [Test]
-        public void GetChannel()
-        {
+        public void GetChannel() {
             var mainServerId = ulong.Parse(ConfigurationManager.AppSettings["MainServer"]);
             var mainChannelId = ulong.Parse(ConfigurationManager.AppSettings["MainTextChannel"]);
 
             var channel = _client.GetChannel(mainChannelId);
 
             var guild = _client.GetGuild(mainServerId);
-                
+
             var textChannel = guild.GetTextChannel(mainChannelId);
 
             Assert.AreEqual(mainChannelId, channel.Id);
@@ -81,8 +74,7 @@ namespace FrameworkTests.Discord.NETTests {
         }
 
         [Test]
-        public void GetUser()
-        {
+        public void GetUser() {
             var userId = ulong.Parse(ConfigurationManager.AppSettings["MainDev"]);
 
             var user = _client.GetUser(userId);
@@ -91,40 +83,50 @@ namespace FrameworkTests.Discord.NETTests {
         }
 
         [Test]
-        public void GetNonExistentChannel()
-        {
+        public void GetNonExistentChannel() {
             var channel = _client.GetChannel(1);
 
             Assert.IsNull(channel);
         }
 
         [Test]
-        public void GetNonExistentUser()
-        {
+        public void GetNonExistentUser() {
             var user = _client.GetUser(1);
 
             Assert.IsNull(user);
         }
 
         [Test]
-        public void RegisterReceivingMessage()
-        {
-            _client.MessageReceived += (msg) =>
-            {
+        public void RegisterReceivingMessage() {
+            _client.MessageReceived += (msg) => {
                 Console.WriteLine(msg.Content);
                 return Task.CompletedTask;
             };
         }
 
-        private async Task<DiscordSocketClient> Connect()
-        {
+        private async Task<DiscordSocketClient> Connect() {
             var token = ConfigurationManager.AppSettings["TestBotKey"];
             var client = new DiscordSocketClient();
 
             await client.LoginAsync(TokenType.Bot, token);
-            await client.ConnectAsync();
+            await client.StartAsync();
 
             return client;
+        }
+
+        private Task WaitForReady() {
+            var completeEvent = new AutoResetEvent(false);
+
+            Func<Task> readyCallback = () => {
+                completeEvent.Set();
+                return Task.CompletedTask;
+            };
+
+            _client.Ready += readyCallback;
+            completeEvent.WaitOne(30000);
+            _client.Ready -= readyCallback;
+
+            return Task.CompletedTask;
         }
     }
 #endif

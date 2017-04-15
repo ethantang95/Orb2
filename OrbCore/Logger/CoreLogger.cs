@@ -53,19 +53,17 @@ namespace OrbCore.Logger {
             return Task.CompletedTask;
         }
 
-        private static void LogMessage(string message, string methodName, string filePath, LogLevel level) {
+        private static void LogMessage(string message, string methodName, string filePath, LogLevel level, string className = null) {
             var logMessage = CreateMessageFromContents(filePath, methodName, message);
             DispatchMessageForLevel(logMessage, level);
         }
 
-        private static CoreLogMessage CreateMessageFromContents(string filePath, string methodName, string message) {
+        private static CoreLogMessage CreateMessageFromContents(string filePath, string methodName, string message, string className = null) {
             var fileName = ParsePath(filePath);
-#if DEBUG
-            var className = GetCallerClass(4);
-#elif RELEASE
-            //because C# code optimizations
-            var className = GetCallerClass(2);
-#endif
+
+            if (className == null) {
+                className = GetCallerClass(4);
+            }
             return new CoreLogMessage(fileName, className, methodName, message);
         }
 
