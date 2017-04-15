@@ -163,6 +163,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CacheTests\SimpleCacheTests.cs" />
     <Compile Include="ContentToolsTest\DirectMessageToolsTests.cs" />
     <Compile Include="ContentToolsTest\GuildTextMessageToolsTests.cs" />
     <Compile Include="LoggerTest\CoreLoggerTests.cs" />
