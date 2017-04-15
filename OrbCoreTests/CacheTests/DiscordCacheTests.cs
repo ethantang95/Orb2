@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using OrbCore.Core;
+using OrbCore.Core.Cache;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace OrbCoreTests.CacheTests {
     [TestFixture]
-    class SimpleCacheTests {
-        SimpleCache<int> _cache;
+    class DiscordCacheTests {
+        DiscordObjectsCache<int> _cache;
         ulong _idCount;
 
         [OneTimeSetUp]
         public void SetUp() {
-            _cache = new SimpleCache<int>();
+            _cache = new DiscordObjectsCache<int>();
             _idCount = 0;
         }
 

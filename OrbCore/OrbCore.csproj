@@ -184,11 +184,12 @@
     <Compile Include="ContentTools\DirectMessageTools.cs" />
     <Compile Include="ContentTools\GuildTextMessageTools.cs" />
     <Compile Include="ContentTools\GuildUserEventTools.cs" />
+    <Compile Include="Core\Cache\CacheItemLastUsedTracker.cs" />
     <Compile Include="Core\CoreAPI.cs" />
     <Compile Include="Core\Config\CoreConfig.cs" />
     <Compile Include="Core\Config\CoreConfigBuilder.cs" />
     <Compile Include="Core\CoreQuery.cs" />
-    <Compile Include="Core\SimpleCache.cs" />
+    <Compile Include="Core\Cache\DiscordObjectsCache.cs" />
     <Compile Include="Interfaces\Core\ICoreAPI.cs" />
     <Compile Include="Interfaces\Core\ICoreQuery.cs" />
     <Compile Include="Interfaces\Core\IOrbCore.cs" />

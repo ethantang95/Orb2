@@ -6,12 +6,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrbCore.Core {
-    internal class SimpleCache<T> {
+namespace OrbCore.Core.Cache {
+    internal class DiscordObjectsCache<T> {
         private ConcurrentDictionary<ulong, T> _cacheDictionary;
+        private CacheItemLastUsedTracker<T> _cacheTracker;
 
-        public SimpleCache() {
+        public DiscordObjectsCache() : this(8192) {
+
+        }
+
+        public DiscordObjectsCache(int capacity) {
             _cacheDictionary = new ConcurrentDictionary<ulong, T>();
+            _cacheTracker = new CacheItemLastUsedTracker<T>(capacity, this);
         }
 
         public void SetMember(ulong id, T obj) {
@@ -20,6 +26,7 @@ namespace OrbCore.Core {
                 _cacheDictionary.TryUpdate(id, obj, old);
             } else {
                 _cacheDictionary.TryAdd(id, obj);
+                UpdateObjectTrack(id);
             }
         }
 
@@ -31,6 +38,7 @@ namespace OrbCore.Core {
 
         public Optional<T> GetMember(ulong id) {
             if (HasMember(id)) {
+                UpdateObjectTrack(id);
                 return Optional.From(_cacheDictionary[id]);
             } else {
                 return Optional<T>.FromNull();
@@ -49,6 +57,7 @@ namespace OrbCore.Core {
             if (HasMember(id)) {
                 T content;
                 _cacheDictionary.TryRemove(id, out content);
+                RemoveFromObjectTrack(id);
             }
         }
 
@@ -60,6 +69,14 @@ namespace OrbCore.Core {
             var obj = call(id);
             SetMember(id, obj);
             return obj;
+        }
+
+        private void UpdateObjectTrack(ulong id) {
+            _cacheTracker.Update(id);
+        }
+
+        private void RemoveFromObjectTrack(ulong id) {
+            _cacheTracker.Remove(id);
         }
     }
 
