@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrbCore.Logger;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -82,6 +83,7 @@ namespace OrbCore.Core.Cache {
 
         private void RemoveOldUsed() {
             var toRemove = Math.Max((int)(_maxCapacity * REMOVEPERCENTAGE), 1);
+            CoreLogger.LogVerbose($"Cache for {_cache.GetType().Name} full, removing {toRemove} members");
             for (var i = 0; i < toRemove; i++) {
                 RemoveOldest();
             }

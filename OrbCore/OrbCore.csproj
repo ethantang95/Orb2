@@ -181,6 +181,7 @@
   <ItemGroup>
     <Compile Include="ContentStructures\DirectMessageContent.cs" />
     <Compile Include="ContentStructures\GuildUserEventContent.cs" />
+    <Compile Include="ContentStructures\ChannelContent.cs" />
     <Compile Include="ContentTools\DirectMessageTools.cs" />
     <Compile Include="ContentTools\GuildTextMessageTools.cs" />
     <Compile Include="ContentTools\GuildUserEventTools.cs" />
@@ -190,10 +191,12 @@
     <Compile Include="Core\Config\CoreConfigBuilder.cs" />
     <Compile Include="Core\CoreQuery.cs" />
     <Compile Include="Core\Cache\DiscordObjectsCache.cs" />
+    <Compile Include="Core\Receiver\CoreReceivers.cs" />
     <Compile Include="Interfaces\Core\ICoreAPI.cs" />
     <Compile Include="Interfaces\Core\ICoreQuery.cs" />
     <Compile Include="Interfaces\Core\IOrbCore.cs" />
     <Compile Include="Interfaces\EventLogger\IEventLoggerReceiver.cs" />
+    <Compile Include="Interfaces\Receivers\ITextChannelCreatedReceiver.cs" />
     <Compile Include="Interfaces\Receivers\IDirectMessageReceiver.cs" />
     <Compile Include="Interfaces\Receivers\IDiscordReadyReceiver.cs" />
     <Compile Include="Interfaces\Receivers\IDiscordDisconnectedReceiver.cs" />
