@@ -90,14 +90,38 @@ namespace OrbCore.Core {
         }
 
         private void RegisterEvents() {
-            _client.MessageReceived += OnMessageReceived;
-            _client.Disconnected += OnDisconnected;
+            _client.Connected += OnConnected;
             _client.Ready += OnReady;
+            _client.Disconnected += OnDisconnected;
+
+            _client.MessageReceived += OnMessageReceived;
+            _client.MessageUpdated += OnMessageUpdated;
+            _client.MessageDeleted += OnMessageDeleted;
+            
             _client.JoinedGuild += OnJoinedGuild;
             _client.LeftGuild += OnLeftGuild;
+            _client.GuildAvailable += OnGuildAvailable;
+            _client.GuildUpdated += OnGuildUpdated;
+            _client.GuildUnavailable += OnGuildUnavailable;
+
             _client.UserJoined += OnUserJoined;
+            _client.UserUpdated += OnUserUpdated;
             _client.UserBanned += OnUserBanned;
+            _client.UserUnbanned += OnUserUnbanned;
             _client.UserLeft += OnUserLeft;
+
+            _client.ChannelCreated += OnChannelCreated;
+            _client.ChannelUpdated += OnChannelUpdated;
+            _client.ChannelDestroyed += OnChannelDestroyed;
+
+            _client.RoleCreated += OnRoleCreated;
+            _client.RoleUpdated += OnRoleUpdated;
+            _client.RoleDeleted += OnRoleDeleted;
+
+            _client.CurrentUserUpdated += OnCurrentUserUpdated;
+            _client.GuildMemberUpdated += OnGuildMemberUpdated;
+            _client.LatencyUpdated += OnLatencyUpdated;
+
         }
 
         private void RegisterLogger() {
@@ -113,14 +137,37 @@ namespace OrbCore.Core {
         }
 
         private void UnRegisterEvents() {
-            _client.MessageReceived -= OnMessageReceived;
-            _client.Disconnected -= OnDisconnected;
+            _client.Connected -= OnConnected;
             _client.Ready -= OnReady;
+            _client.Disconnected -= OnDisconnected;
+
+            _client.MessageReceived -= OnMessageReceived;
+            _client.MessageUpdated -= OnMessageUpdated;
+            _client.MessageDeleted -= OnMessageDeleted;
+
             _client.JoinedGuild -= OnJoinedGuild;
             _client.LeftGuild -= OnLeftGuild;
+            _client.GuildAvailable -= OnGuildAvailable;
+            _client.GuildUpdated -= OnGuildUpdated;
+            _client.GuildUnavailable -= OnGuildUnavailable;
+
             _client.UserJoined -= OnUserJoined;
+            _client.UserUpdated -= OnUserUpdated;
             _client.UserBanned -= OnUserBanned;
+            _client.UserUnbanned -= OnUserUnbanned;
             _client.UserLeft -= OnUserLeft;
+
+            _client.ChannelCreated -= OnChannelCreated;
+            _client.ChannelUpdated -= OnChannelUpdated;
+            _client.ChannelDestroyed -= OnChannelDestroyed;
+
+            _client.RoleCreated -= OnRoleCreated;
+            _client.RoleUpdated -= OnRoleUpdated;
+            _client.RoleDeleted -= OnRoleDeleted;
+
+            _client.CurrentUserUpdated -= OnCurrentUserUpdated;
+            _client.GuildMemberUpdated -= OnGuildMemberUpdated;
+            _client.LatencyUpdated -= OnLatencyUpdated;
         }
 
         private void UnRegisterLogger() {
