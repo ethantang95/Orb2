@@ -1,4 +1,5 @@
 ﻿using HelperCore.Optional;
+using OrbCore.Logger;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -18,13 +19,16 @@ namespace OrbCore.Core.Cache {
         public DiscordObjectsCache(int capacity) {
             _cacheDictionary = new ConcurrentDictionary<ulong, T>();
             _cacheTracker = new CacheItemLastUsedTracker<T>(capacity, this);
+            CoreLogger.LogVerbose($"Cache initiated for type {GetType().Name} with capacity of {capacity}");
         }
 
         public void SetMember(ulong id, T obj) {
             if (HasMember(id)) {
+                CoreLogger.LogVerbose($"Item id {id} and type {obj.GetType().Name} changed");
                 var old = GetMember(id).Value;
                 _cacheDictionary.TryUpdate(id, obj, old);
             } else {
+                CoreLogger.LogVerbose($"Item id {id} and type {obj.GetType().Name} cached");
                 _cacheDictionary.TryAdd(id, obj);
                 UpdateObjectTrack(id);
             }
@@ -38,6 +42,7 @@ namespace OrbCore.Core.Cache {
 
         public Optional<T> GetMember(ulong id) {
             if (HasMember(id)) {
+                CoreLogger.LogVerbose($"Item id {id} cache hit");
                 UpdateObjectTrack(id);
                 return Optional.From(_cacheDictionary[id]);
             } else {
@@ -49,6 +54,7 @@ namespace OrbCore.Core.Cache {
             if (HasMember(id)) {
                 return GetMember(id).Value;
             } else {
+                CoreLogger.LogVerbose($"Item id {id} called at call return");
                 return CallAddReturn(id, call);
             }
         }
@@ -58,6 +64,7 @@ namespace OrbCore.Core.Cache {
                 T content;
                 _cacheDictionary.TryRemove(id, out content);
                 RemoveFromObjectTrack(id);
+                CoreLogger.LogVerbose($"Item id {id} and type {content.GetType().Name} removed from cache");
             }
         }
 
